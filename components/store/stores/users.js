@@ -27,12 +27,12 @@ module.exports = () => {
     fetchTopSkillsByUser: async userName => {
       console.log('userName', userName);
       const { rows } = await pg.query(`
-        select user.user_id, user.email, user."name" as "userName", user.seniority, user.country, user_skill.skill_id, skill_catalog."name" as "skillName"
-        from user
-        left join user_skill on user_skill.user_id = user.user_id
-        left join skill_catalog on skill_catalog.id = user_skill.skill_id  
-        where lower(user.name) like lower('%${userName}%') 
-        order by user_skill.skill_value desc 
+        select u.user_id, u.email, u."name" as "userName", u.seniority, u.country, us.skill_id, sc."name" as "skillName"
+        from user u
+        left join user_skill us on us.user_id = u.user_id
+        left join skill_catalog sc on sc.id = us.skill_id  
+        where lower(u.name) like lower('%${userName}%') 
+        order by us.skill_value desc 
         limit 5`);
       console.log('rows', rows);
       return rows;
