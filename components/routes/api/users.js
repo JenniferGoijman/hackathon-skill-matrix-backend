@@ -197,6 +197,28 @@ module.exports = () => {
         }
       });
 
+    /**
+     * GET /api/v1/user/topskills/{userId}
+     * @route GET /ui/user/topskills/{skillId}
+     * @summary Get top 5 skills by user id
+     * @tags Users
+     * @param {string} userId
+     * @return {object} 200 - Successful operation
+     * @example response - 200 - success response example
+
+     */
+    app.get('/api/v1/user/topskills/:userName',
+      async (req, res, next) => {
+        try {
+          const { params: { userName } } = req;
+
+          const skills = await controller.users.fetchTopSkillsByUser(userName);
+          res.send(skills);
+        } catch (error) {
+          next(tagError(error));
+        }
+      });
+
     app.use(handleHttpError(logger));
     return Promise.resolve();
   };

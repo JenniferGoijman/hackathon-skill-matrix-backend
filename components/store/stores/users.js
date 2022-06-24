@@ -24,6 +24,17 @@ module.exports = () => {
       const { rows } = await pg.query('select-level-user-skill', [id, userId]);
       return rows[0];
     },
+    fetchTopSkillsByUser: async userName => {
+      const { rows } = await pg.query(`
+        select u.user_id, u.email, u."name" as "userName", u.seniority, u.country, us.skill_id, sc."name" as "skillName"
+        from skills.user u
+        left join skills.user_skill us on us.user_id = u.user_id
+        left join skills.skill_catalog sc on sc.id = us.skill_id  
+        where lower(u.name) like lower('%${userName}%') 
+        order by us.skill_value desc 
+        limit 5`);
+      return rows;
+    },
     checkIsAdmin: async payload => {
       const { rows } = await pg.query('check-admin', [payload]);
       return rows[0];

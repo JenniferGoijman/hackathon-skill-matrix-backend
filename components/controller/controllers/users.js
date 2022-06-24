@@ -32,13 +32,18 @@ module.exports = () => {
       debug('Fetch user level at skill');
       return store.users.fetchLevelUserBySkill(id, userId);
     };
+    const fetchTopSkillsByUser = async userName => {
+      logger.info('Fetch top skills by user');
+      debug('Fetch top skills by user');
+      return store.users.fetchTopSkillsByUser(userName);
+    };
     const checkIsAdmin = async email => {
       logger.info('Check if the new user is admin');
       debug('Check if the new user is admin');
       return store.users.checkIsAdmin(email);
     };
     return {
-      fetchUsers, fetchUserInfo, insertUser, checkIsAdmin, changeUserRole, changeUserCountry, fetchLevelUserBySkill,
+      fetchUsers, fetchUserInfo, insertUser, checkIsAdmin, changeUserRole, changeUserCountry, fetchLevelUserBySkill, fetchTopSkillsByUser,
     };
   };
   return { start };
