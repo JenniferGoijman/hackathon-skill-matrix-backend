@@ -25,6 +25,7 @@ module.exports = () => {
       return rows[0];
     },
     fetchTopSkillsByUser: async userName => {
+      console.log('userName', userName);
       const { rows } = await pg.query(`
         select u.user_id, u.email, u."name" as "userName", u.seniority, u.country, us.skill_id, sc."name" as "skillName"
         from skills.user u
@@ -33,6 +34,7 @@ module.exports = () => {
         where lower(u.name) like lower('%${userName}%') 
         order by us.skill_value desc 
         limit 5`);
+      console.log('rows', rows);
       return rows;
     },
     checkIsAdmin: async payload => {
