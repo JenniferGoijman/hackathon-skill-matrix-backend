@@ -28,9 +28,9 @@ module.exports = () => {
       console.log('userName', userName);
       const { rows } = await pg.query(`
         select u.user_id, u.email, u."name" as "userName", u.seniority, u.country, us.skill_id, sc."name" as "skillName"
-        from skills.user u
-        left join skills.user_skill us on us.user_id = u.user_id
-        left join skills.skill_catalog sc on sc.id = us.skill_id  
+        from user u
+        left join user_skill us on us.user_id = u.user_id
+        left join skill_catalog sc on sc.id = us.skill_id  
         where lower(u.name) like lower('%${userName}%') 
         order by us.skill_value desc 
         limit 5`);
